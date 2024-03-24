@@ -1,1 +1,2 @@
-console.log("ishladi");
+import dotenv from 'dotenv';
+dotenv.config();
