@@ -3,6 +3,7 @@ import { T } from "../libs/types/common";
 import MemberService from "../models/Member.service";
 import { LoginInput, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
+import Errors from "../libs/Errors";
 const storeController: T = {};
 const memberService = new MemberService();
 
@@ -40,7 +41,9 @@ storeController.processLogin = async (req: Request, res: Response) => {
     const result = await memberService.processLogin(input);
     res.send(result);
   } catch (err) {
-    console.log("Error processLogin");
+    console.log("Error signup", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
 
@@ -52,7 +55,9 @@ storeController.processSignup = async (req: Request, res: Response) => {
     const result = await memberService.processSignup(newMember);
     res.send(result);
   } catch (err) {
-    console.log("Error processSignup");
+    console.log("Error signup", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
 

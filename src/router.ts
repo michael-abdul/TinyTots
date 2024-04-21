@@ -4,7 +4,7 @@ import memberController from "./controllers/member.controller";
 
 /** Member */
 router.get("/member/store", memberController.getStore);
-router.get("/member/signup", memberController.signup);
-router.get("/member/login", memberController.login);
+router.post("/member/signup", memberController.signup);
+router.post("/member/login", memberController.login);
 
 export default router;
