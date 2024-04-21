@@ -47,7 +47,6 @@ storeController.processLogin = async (req: Request, res: Response) => {
 storeController.processSignup = async (req: Request, res: Response) => {
   try {
     console.log("processSignup");
-    console.log("body", req.body);
     const newMember: MemberInput = req.body;
     newMember.memberType = MemberType.STORE;
     const result = await memberService.processSignup(newMember);

@@ -2,6 +2,7 @@ import { LoginInput, Member, MemberInput } from "../libs/types/member";
 import MemberModel from "../schema/Member.model";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { MemberType } from "../libs/enums/member.enum";
+import * as bcrypt from "bcryptjs";
 class MemberService {
   private readonly memberModel;
   constructor() {
@@ -11,12 +12,15 @@ class MemberService {
     const exist = await this.memberModel
       .findOne({ memberType: MemberType.STORE })
       .exec();
-    console.log("exist", exist);
 
     if (exist) throw new Errors(HttpCode.BAD_REQUEST, Message.CREATED_FAILED);
+    console.log("before:", input.memberPassword);
+    const salt = await bcrypt.genSalt();
+    input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
+    console.log("after:", input.memberPassword);
+
     try {
       const result = await this.memberModel.create(input);
-      console.log("Passed here");
       result.memberPassword = "";
       return result;
     } catch (err) {
