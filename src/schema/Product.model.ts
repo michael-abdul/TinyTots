@@ -33,7 +33,7 @@ const productSchema = new Schema(
     productAge: {
       type: String,
       enum: ProductAge,
-      default: ProductAge.ONE_YEARS,
+      default: ProductAge.THREE_YEARS,
     },
     productLearn: {
       type: String,
