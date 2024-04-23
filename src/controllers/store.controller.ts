@@ -65,7 +65,7 @@ storeController.processSignup = async (req: AdminRequest, res: Response) => {
     if (!file)
       throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG);
     const newMember: MemberInput = req.body;
-    newMember.memberImage = file?.path;
+    newMember.memberImage = file?.path.replace(/\\/g, "/");
     newMember.memberType = MemberType.STORE;
     const result = await memberService.processSignup(newMember);
     // TODO SESSIONS AUTHENTICATION

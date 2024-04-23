@@ -38,7 +38,7 @@ const productSchema = new Schema(
     productLearn: {
       type: String,
       enum: ProductLearn,
-      default: ProductLearn.EDU_GAMES,
+      deafult: "",
     },
     productDesc: {
       type: String,
