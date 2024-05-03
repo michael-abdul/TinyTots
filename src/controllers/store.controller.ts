@@ -19,7 +19,7 @@ storeController.goHome = (req: Request, res: Response) => {
 
 storeController.getLogin = (req: Request, res: Response) => {
   try {
-    res.render("login");
+    res.render("signup");
     console.log("getLogin");
   } catch (err) {
     console.log("Error getLogin");
