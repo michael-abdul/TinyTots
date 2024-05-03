@@ -41,4 +41,6 @@ routerAdmin.post(
 
 // User
 
+routerAdmin.get("/user/all", storeController.verifyStore,storeController.getUsers);
+routerAdmin.post("/user/edit", storeController.verifyStore,storeController.updateChosenUser)
 export default routerAdmin;
