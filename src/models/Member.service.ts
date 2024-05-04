@@ -1,7 +1,7 @@
 import { LoginInput, Member, MemberInput, MemberUpdateInput } from "../libs/types/member";
 import MemberModel from "../schema/Member.model";
 import Errors, { HttpCode, Message } from "../libs/Errors";
-import { MemberType } from "../libs/enums/member.enum";
+import { MemberStatus, MemberType } from "../libs/enums/member.enum";
 import * as bcrypt from "bcryptjs";
 import { shapeIntoMongooseObjectId } from "../libs/config";
 class MemberService {
@@ -26,27 +26,29 @@ class MemberService {
       throw new Errors(HttpCode.BAD_REQUEST, Message.USED_NICK_PHONE);
     }
   }
-  public async login(input: LoginInput): Promise<Member> {
+  public async login(input: LoginInput): Promise<Member>{
+            
     const member = await this.memberModel
-      .findOne(
-        { memberNick: input.memberNick },
-        { memberNick: 1, memberPassword: 1 }
-      )
-      .exec();
-    if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK);
+    .findOne(
+        {memberNick: input.memberNick, memberStatus: {$ne: MemberStatus.DELETE}}, //search
+        {memberNick: 1, memberPassword:1, memberStatus: 1} //option
+    )   
+        .exec();
+        if(!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK);
+        else if(member.memberStatus === MemberStatus.BLOCK)
+         {throw new Errors(HttpCode.FORBIDDEN, Message.BLOCKED_USER);}
+        const isMatch = await bcrypt.compare(
+            input.memberPassword,
+            member.memberPassword);
 
-    const isMatch = await bcrypt.compare(
-      input.memberPassword,
-      member.memberPassword
-    );
-    console.log("isMatch", isMatch);
+       
+        console.log("isMatch:", isMatch);
+        if(!isMatch) {
+            throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD);
+        }
 
-    if (!isMatch) {
-      throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD);
+        return await this.memberModel.findById(member._id).exec();
     }
-
-    return await this.memberModel.findById(member._id).exec();
-  }
 
   /**SSR */
   public async processSignup(input: MemberInput): Promise<Member> {
