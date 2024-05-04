@@ -33,12 +33,12 @@ const productSchema = new Schema(
     productAge: {
       type: String,
       enum: ProductAge,
-      default: ProductAge.THREE_YEARS,
+      deafult: ProductAge.ONE_YEARS,
     },
     productLearn: {
       type: String,
       enum: ProductLearn,
-      deafult: "",
+      deafult:ProductLearn.PUZZLES
     },
     productDesc: {
       type: String,
