@@ -3,24 +3,26 @@
 <link rel="stylesheet" type="text/css" href="/css/signup.css" />
 <body>
   <div class="container right-panel-active">
-        <!-- Sign In -->
+        <!-- Login -->
 
         <div class="container__form container--signin">
-          <form class="form" id="form2" action="/admin/login" METHOD="POST">
+          <form   class="form" id="form2" action="/admin/login" METHOD="POST">
             <h2 class="form__title">Login</h2>
             <input
               type="text"
               placeholder="Admin"
               class="input"
               name="memberNick"
-              required
+              value=""
+
             />
             <input
               type="password"
               placeholder="Password"
               class="input"
               name="memberPassword"
-              required
+              value=""
+
             />
             <button class="btn" name="login" type="submit">Login</button>
           </form>
@@ -28,7 +30,7 @@
     
     <!-- Sign Up -->
     <div class="container__form container--signup">
-      <form
+      <form onsubmit="return validateSignupForm()" 
         action="/admin/signup"
         class="form"
         id="form1"
@@ -40,30 +42,34 @@
         <input
           type="text"
           placeholder="Admin"
-          class="input"
+          class="member-nick"
           name="memberNick"
-          required
+          value=""
+
         />
         <input
           type="text"
           placeholder="Phone"
-          class="input"
+          class="member-phone"
           name="memberPhone"
-          required
+          value=""
+
         />
         <input
           type="password"
           placeholder="Password"
-          class="input"
+          class="member-password"
           name="memberPassword"
-          required
+          value=""
+
         />
         <input
           type="password"
           placeholder="RepeatPassword"
-          class="input"
+          class="confirm-password"
           name="confirmPassword"
-          required
+          value=""
+
         />
         <div class="upload-container">
           <div
@@ -71,18 +77,18 @@
             style="margin-top: 15px; display: flex"
           >
             <input
-              class="input"
+              class="upload-name"
               value="Choose image"
               disabled="disabled"
-              required
+
             />
 
             <input
               type="file"
               id="input-image"
-              class="input"
+              class="upload-hidden"
               name="memberImage"
-              required
+
             />
           </div>
           <p class="thumbnail-desc">
@@ -90,7 +96,7 @@
             formats allowed!
           </p>
         </div>
-        <input name="memberType" value="RESTAURANT" hidden />
+        <input name="memberType" value="STORE" hidden />
 
         <button class="btn" name="signup" type="submit">Sign Up</button>
       </form>

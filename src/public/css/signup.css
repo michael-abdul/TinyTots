@@ -192,8 +192,35 @@ body {
   height: 100%;
   text-align: center;
 }
-
-.input {
+.input{
+  background-color: #fff;
+  border: none;
+  padding: 0.9rem 0.9rem;
+  margin: 0.5rem 0;
+  width: 100%;
+}
+.member-nick{
+  background-color: #fff;
+  border: none;
+  padding: 0.9rem 0.9rem;
+  margin: 0.5rem 0;
+  width: 100%;
+}
+.member-phone{
+  background-color: #fff;
+  border: none;
+  padding: 0.9rem 0.9rem;
+  margin: 0.5rem 0;
+  width: 100%;
+}
+.member-password{
+  background-color: #fff;
+  border: none;
+  padding: 0.9rem 0.9rem;
+  margin: 0.5rem 0;
+  width: 100%;
+}
+.confirm-password{
   background-color: #fff;
   border: none;
   padding: 0.9rem 0.9rem;
@@ -201,8 +228,16 @@ body {
   width: 100%;
 }
 
-.input .input-image {
-  background-color: red;
+.upload-name{
+  background-color: #fff;
+  border: none;
+  padding: 0.9rem 0.9rem;
+  margin: 0.5rem 0;
+  width: 100%;
+}
+
+.upload-hidden {
+  background-color: #fff;
   border: none;
   padding: 0.9rem 0.9rem;
   margin: 0.5rem 0;
