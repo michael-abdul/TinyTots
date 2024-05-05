@@ -17,16 +17,15 @@ class MemberService {
   }
 
   // SPA
-  public async getStore(): Promise<Member>{
+  public async getStore(): Promise<Member> {
     const result = await this.memberModel
-    .findOne({memberType:MemberType.STORE})
-    .lean()
-    .exec();
+      .findOne({ memberType: MemberType.STORE })
+      .lean()
+      .exec();
     // result.target = "Test";
-    if(!result)throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
     return result;
-
-}
+  }
   public async signup(input: MemberInput): Promise<Member> {
     const salt = await bcrypt.genSalt();
     input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
@@ -105,6 +104,20 @@ class MemberService {
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
 
     return result;
+  }
+  public async addUserPoint(member: Member, point: number): Promise<Member> {
+    const memberId = shapeIntoMongooseObjectId(member._id);
+    return await this.memberModel
+      .findOneAndUpdate(
+        {
+          memberType: MemberType.USER,
+          memberStatus: MemberStatus.ACTIVE,
+          _id: memberId,
+        },
+        { $inc: { memberPoints: point } },
+        { new: true }
+      )
+      .exec();
   }
 
   // SSR

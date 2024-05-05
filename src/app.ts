@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import session from "express-session";
 import ConnectMongoDB from "connect-mongodb-session";
 import { T } from "./libs/types/common";
+import cors from "cors";
 
 const MongoDBStore = ConnectMongoDB(session);
 const store = new MongoDBStore({
