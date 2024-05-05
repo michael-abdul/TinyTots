@@ -24,7 +24,7 @@ class ProductService {
       return await this.productModel.create(input);
     } catch (err) {
       console.error("Error, model: createNewProduct:", err);
-      throw new Errors(HttpCode.BAD_REQUEST, Message.CREATED_FAILED);
+      throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
     }
   }
 
