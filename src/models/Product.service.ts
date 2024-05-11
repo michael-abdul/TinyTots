@@ -47,7 +47,7 @@ public async getProducts(inquiry:ProductInquiry): Promise<Product[]>{
       .exec();
 
       
-  if(result.length==0) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND); 
+  if(!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND); 
 return result;
 }
 
