@@ -4,12 +4,13 @@ import router from "./router";
 import routerAdmin from "./router-admin";
 import { MORGAN_FORMAT } from "./libs/config";
 import morgan from "morgan";
-import cookieParser from 'cookie-parser';
+import cookieParser from "cookie-parser";
 import session from "express-session";
 import ConnectMongoDB from "connect-mongodb-session";
 import { T } from "./libs/types/common";
 import cors from "cors";
-
+import { Server as SocketIOServer } from "socket.io";
+import http from "http";
 const MongoDBStore = ConnectMongoDB(session);
 const store = new MongoDBStore({
   uri: String(process.env.MONGO_URL),
@@ -19,13 +20,12 @@ const store = new MongoDBStore({
 // 1-ENTRANCE
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/uploads", express.static("./uploads"))
+app.use("/uploads", express.static("./uploads"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan(MORGAN_FORMAT));
-app.use(cors({credentials: true, origin: true}))
-
+app.use(cors({ credentials: true, origin: true }));
 
 // 2-SESSIONS
 app.use(
@@ -52,4 +52,22 @@ app.set("view engine", "ejs");
 app.use("/admin", routerAdmin);
 app.use("/", router);
 
-export default app;
+const server = http.createServer(app);
+const io = new SocketIOServer(server, {
+  cors: {
+    origin: true,
+    credentials: true,
+  },
+});
+
+let summaryClient = 0;
+io.on("connection", (socket) => {
+  summaryClient++;
+  console.log(`Connection & total [${summaryClient}]`);
+
+  socket.on("disconnect", () => {
+    summaryClient--;
+    console.log(`Disconection & total [${summaryClient}]`);
+  });
+});
+export default server;
